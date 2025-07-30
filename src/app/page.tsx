@@ -133,7 +133,7 @@ export default function Home() {
               Why <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SecureMotor</span>?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We've revolutionized motor insurance with cutting-edge technology and customer-first approach
+              We have revolutionized motor insurance with cutting-edge technology and customer-first approach
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-12">

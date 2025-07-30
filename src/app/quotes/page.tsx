@@ -207,7 +207,7 @@ export default function QuotesPage() {
                   <div className="text-center py-20">
                     <Car className="h-16 w-16 text-slate-300 mx-auto mb-4" />
                     <h2 className="text-xl font-semibold text-slate-700">No quotes found</h2>
-                    <p className="text-slate-500 mt-2 mb-6">It looks like you haven't created any quotes yet.</p>
+                    <p className="text-slate-500 mt-2 mb-6">It looks like you haven&apos;t created any quotes yet.</p>
                     <Link href="/new-quote">
                       <button className="flex items-center mx-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium shadow-lg shadow-blue-500/25 hover:shadow-xl transform hover:scale-105 transition-all duration-200">
                         <Plus className="h-5 w-5 mr-2" />

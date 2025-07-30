@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -10,7 +10,6 @@ import {
 } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import Link from 'next/link';
 import {
   Car,
   Shield,
@@ -19,23 +18,15 @@ import {
   User,
   ChevronRight,
   ChevronLeft,
-  Check,
-  Zap,
   Settings,
   FileText,
   Calculator,
   ArrowRight,
   Sparkles,
   TrendingUp,
-  Home,
   Bell,
   Menu,
-  X,
-  Info,
-  HelpCircle,
-  AlertCircle,
-  CheckCircle2,
-  Loader2
+  HelpCircle
 } from 'lucide-react';
 import { calculatePremium } from '@/lib/premiumCalculator';
 import { QuotesService } from '@/lib/quotesService';
@@ -75,10 +66,9 @@ export default function QuotePage() {
     handleSubmit,
     watch,
     trigger,
-    formState: { errors, isValid },
-    getValues
+    formState: { errors }
   } = useForm<QuoteFormInputs>({
-    resolver: zodResolver(quoteSchema) as any,
+    resolver: zodResolver(quoteSchema),
     mode: 'onChange',
     defaultValues: {
       fuelType: 'petrol',
@@ -193,7 +183,7 @@ export default function QuotePage() {
 
   const nextStep = async () => {
     const currentStepFields = steps[currentStep - 1].fields;
-    const isStepValid = await trigger(currentStepFields as any);
+    const isStepValid = await trigger(currentStepFields as (keyof QuoteFormInputs)[]);
     
     if (isStepValid) {
       setAnimateStep(true);
@@ -254,7 +244,7 @@ export default function QuotePage() {
         status: 'active' as const,
       };
 
-      await QuotesService.createQuote(quoteData as any);
+      await QuotesService.createQuote(quoteData);
 
       setPremium(totalPremium);
       setCurrentStep(5); // Move to the review step
@@ -362,11 +352,11 @@ return (
                 </div>
               </div>
               
-              <form onSubmit={handleSubmit(onSubmit as any)} className="p-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="p-6">
                 {steps[currentStep - 1].fields.map((fieldName) => (
                   <div key={fieldName} className="mb-6">
                     <Controller
-                      name={fieldName as any}
+                      name={fieldName as keyof QuoteFormInputs}
                       control={control}
                       render={({ field }) => (
                         <div>

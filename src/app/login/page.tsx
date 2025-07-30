@@ -39,8 +39,9 @@ export default function LoginPage() {
     try {
       await signIn(formData.email, formData.password);
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to log in. Please check your credentials.');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to log in. Please check your credentials.';
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -51,8 +52,9 @@ export default function LoginPage() {
       setIsSubmitting(true);
       await signInWithGoogle();
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in with Google');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to sign in with Google';
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -81,7 +83,7 @@ export default function LoginPage() {
           </Link>
           <h2 className="text-3xl font-bold text-gray-900">Sign in to your account</h2>
           <p className="mt-2 text-sm text-gray-600">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
               Sign up
             </Link>

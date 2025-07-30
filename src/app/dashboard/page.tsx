@@ -152,7 +152,7 @@ export default function Dashboard() {
               Welcome back, {user?.displayName?.split(' ')[0] || 'User'}! 👋
             </h2>
             <p className="text-slate-600 text-lg">
-              Here's an overview of your motor insurance portfolio
+              Here is an overview of your motor insurance portfolio
             </p>
           </div>
 
@@ -288,7 +288,7 @@ export default function Dashboard() {
               <div className="p-6 border-b border-slate-200/60">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xl font-bold text-slate-900">Active Policies</h3>
-                  <a href="/" className="text-blue-600 hover:text-blue-700 font-medium text-sm">View all →</a>
+                  <Link href="/" className="text-blue-600 hover:text-blue-700 font-medium text-sm">View all →</Link>
                 </div>
               </div>
               <div className="p-6">
@@ -332,7 +332,7 @@ export default function Dashboard() {
               <div className="p-6 border-b border-slate-200/60">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xl font-bold text-slate-900">Recent Claims</h3>
-                  <a href="/" className="text-blue-600 hover:text-blue-700 font-medium text-sm">View all →</a>
+                  <Link href="/" className="text-blue-600 hover:text-blue-700 font-medium text-sm">View all →</Link>
                 </div>
               </div>
               <div className="p-6">

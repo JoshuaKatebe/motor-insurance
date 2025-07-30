@@ -57,8 +57,9 @@ export default function SignUpPage() {
       const displayName = `${formData.firstName} ${formData.lastName}`;
       await signUp(formData.email, formData.password, displayName);
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to create account. Please try again.');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create account. Please try again.';
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -69,8 +70,9 @@ export default function SignUpPage() {
       setIsSubmitting(true);
       await signInWithGoogle();
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign up with Google');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to sign up with Google';
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

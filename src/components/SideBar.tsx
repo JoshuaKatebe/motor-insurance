@@ -3,6 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Shield,
   FileText,
@@ -71,9 +72,11 @@ export default function SideBar({ sidebarOpen: externalSidebarOpen, setSidebarOp
             <div className="flex items-center px-4 py-3 bg-slate-50/80 rounded-xl">
               <div className="flex-shrink-0">
                 {user?.photoURL ? (
-                  <img 
+                  <Image 
                     src={user.photoURL} 
                     alt={user.displayName || 'User'}
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (

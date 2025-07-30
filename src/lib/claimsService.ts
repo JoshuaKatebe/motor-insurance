@@ -120,7 +120,7 @@ export class ClaimsService {
   static async updateClaimStatus(claimId: string, status: Claim['status'], approvedAmount?: number): Promise<void> {
     try {
       const docRef = doc(db, CLAIMS_COLLECTION, claimId);
-      const updateData: any = {
+      const updateData: { status: Claim['status']; updatedAt: Timestamp; approvedAmount?: number } = {
         status,
         updatedAt: Timestamp.now()
       };

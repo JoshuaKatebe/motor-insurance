@@ -7,7 +7,7 @@ import Link from 'next/link';
 import SideBar from '@/components/SideBar';
 import { ClaimsService, Claim } from '@/lib/claimsService';
 import { Timestamp } from 'firebase/firestore';
-import { FileText, Plus, Menu, Eye, Download, AlertTriangle, Bell } from 'lucide-react';
+import { Plus, Menu, Eye, AlertTriangle, Bell } from 'lucide-react';
 import ClaimsSkeleton from '@/components/skeletons/ClaimsSkeleton';
 
 export default function ClaimsPage() {
