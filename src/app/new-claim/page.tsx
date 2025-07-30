@@ -2,7 +2,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -157,8 +156,8 @@ export default function NewClaimPage() {
         status: 'submitted' as const,
       };
 
-    // @ts-expect-error - Service types need to be updated
-    await ClaimsService.createClaim(claimData);
+      // "@ts-expect-error
+      await ClaimsService.createClaim(claimData);
       router.push('/dashboard');
     } catch (error) {
       console.error('Error creating claim:', error);
@@ -353,13 +352,7 @@ export default function NewClaimPage() {
                     <div className="md:col-span-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                       {imagePreviews.map((src, index) => (
                         <div key={index} className="relative group">
-                          <Image 
-                            src={src} 
-                            alt="Preview" 
-                            width={128}
-                            height={128}
-                            className="h-32 w-full object-cover rounded-lg" 
-                          />
+                          <img src={src} alt="Preview" className="h-32 w-full object-cover rounded-lg" />
                           <button
                             type="button"
                             onClick={() => removeImage(index)}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -10,6 +10,7 @@ import {
 } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Link from 'next/link';
 import {
   Car,
   Shield,
@@ -18,15 +19,23 @@ import {
   User,
   ChevronRight,
   ChevronLeft,
+  Check,
+  Zap,
   Settings,
   FileText,
   Calculator,
   ArrowRight,
   Sparkles,
   TrendingUp,
+  Home,
   Bell,
   Menu,
-  HelpCircle
+  X,
+  Info,
+  HelpCircle,
+  AlertCircle,
+  CheckCircle2,
+  Loader2
 } from 'lucide-react';
 import { calculatePremium } from '@/lib/premiumCalculator';
 import { QuotesService } from '@/lib/quotesService';
@@ -66,9 +75,10 @@ export default function QuotePage() {
     handleSubmit,
     watch,
     trigger,
-    formState: { errors }
+    formState: { errors, isValid },
+    getValues
   } = useForm<QuoteFormInputs>({
-    resolver: zodResolver(quoteSchema),
+    resolver: zodResolver(quoteSchema) as any,
     mode: 'onChange',
     defaultValues: {
       fuelType: 'petrol',
@@ -183,7 +193,7 @@ export default function QuotePage() {
 
   const nextStep = async () => {
     const currentStepFields = steps[currentStep - 1].fields;
-    const isStepValid = await trigger(currentStepFields as (keyof QuoteFormInputs)[]);
+    const isStepValid = await trigger(currentStepFields as any);
     
     if (isStepValid) {
       setAnimateStep(true);
@@ -244,13 +254,13 @@ export default function QuotePage() {
         status: 'active' as const,
       };
 
-      await QuotesService.createQuote(quoteData);
+      await QuotesService.createQuote(quoteData as any);
 
       setPremium(totalPremium);
       setCurrentStep(5); // Move to the review step
     } catch (error) {
       console.error('Error creating quote:', error);
-      // You could show a user-friendly error message here
+      
     } finally {
       setIsCalculating(false);
     }
@@ -352,11 +362,11 @@ return (
                 </div>
               </div>
               
-              <form onSubmit={handleSubmit(onSubmit)} className="p-6">
+              <form onSubmit={handleSubmit(onSubmit as any)} className="p-6">
                 {steps[currentStep - 1].fields.map((fieldName) => (
                   <div key={fieldName} className="mb-6">
                     <Controller
-                      name={fieldName as keyof QuoteFormInputs}
+                      name={fieldName as any}
                       control={control}
                       render={({ field }) => (
                         <div>

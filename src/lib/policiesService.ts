@@ -5,11 +5,8 @@ import {
   getDoc,
   doc, 
   updateDoc, 
-  deleteDoc, 
   query, 
-  where, 
-  orderBy, 
-  limit,
+  where,
   Timestamp 
 } from 'firebase/firestore';
 import { db } from './firebase';
