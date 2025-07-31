@@ -36,7 +36,7 @@ const claimSchema = z.object({
   incidentDate: z.string().min(1, 'Incident date is required'),
   incidentType: z.enum(['accident', 'theft', 'fire', 'vandalism', 'natural-disaster', 'other']),
   incidentDescription: z.string().min(20, 'Please provide a detailed description (min. 20 characters)'),
-  estimatedAmount: z.coerce.number().positive('Please enter a valid estimated amount'),
+  estimatedAmount: z.number().positive('Please enter a valid estimated amount'),
   images: z.array(z.any()).optional(),
 });
 
@@ -311,12 +311,13 @@ export default function NewClaimPage() {
                     <Controller
                       name="estimatedAmount"
                       control={control}
-                      render={({ field }) => (
+                      render={({ field: { onChange, ...field } }) => (
                         <input
                           type="number"
                           {...field}
+                          onChange={(e) => onChange(e.target.valueAsNumber)}
                           className="w-full px-4 py-3 border border-slate-300 rounded-xl bg-white/50"
-                           placeholder="e.g., 5000"
+                          placeholder="e.g., 5000"
                         />
                       )}
                     />
@@ -350,26 +351,30 @@ export default function NewClaimPage() {
                   {/* Image Previews */}
                   {imagePreviews.length > 0 && (
                     <div className="md:col-span-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                      {imagePreviews.map((src, index) => (
-                        <div key={index} className="relative group">
-                          <img src={src} alt="Preview" className="h-32 w-full object-cover rounded-lg" />
-                          <button
-                            type="button"
-                            onClick={() => removeImage(index)}
-                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100"
-                          >
-                            <X className="h-4 w-4" />
-                          </button>
-                          {uploadProgress[watch('images')[index]?.name] &&
-                            <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-200 rounded-b-lg">
-                              <div
-                                className="h-1 bg-blue-600 rounded-b-lg"
-                                style={{ width: `${uploadProgress[watch('images')[index].name]}%` }}
-                              ></div>
-                            </div>
-                          }
-                        </div>
-                      ))}
+                      {imagePreviews.map((src, index) => {
+                        const images = watch('images');
+                        const imageName = images?.[index]?.name;
+                        return (
+                          <div key={index} className="relative group">
+                            <img src={src} alt="Preview" className="h-32 w-full object-cover rounded-lg" />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100"
+                            >
+                              <X className="h-4 w-4" />
+                            </button>
+                            {imageName && uploadProgress[imageName] &&
+                              <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-200 rounded-b-lg">
+                                <div
+                                  className="h-1 bg-blue-600 rounded-b-lg"
+                                  style={{ width: `${uploadProgress[imageName]}%` }}
+                                ></div>
+                              </div>
+                            }
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </div>

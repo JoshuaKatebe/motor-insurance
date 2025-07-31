@@ -44,18 +44,18 @@ import SideBar from '@/components/SideBar';
 const quoteSchema = z.object({
   make: z.string().min(1, 'Make is required'),
   model: z.string().min(1, 'Model is required'),
-  year: z.coerce.number().int().min(1900).max(new Date().getFullYear() + 1),
+  year: z.number().int().min(1900).max(new Date().getFullYear() + 1),
   registrationNumber: z.string().min(1),
   engineSize: z.string().min(1),
   fuelType: z.enum(['petrol', 'diesel', 'electric', 'hybrid']),
-  vehicleValue: z.coerce.number().positive(),
+  vehicleValue: z.number().positive(),
   color: z.string().min(1),
   chassisNumber: z.string().min(1),
   coverageType: z.enum(['third-party', 'comprehensive', 'fire-theft']),
   startDate: z.string().min(1),
-  duration: z.coerce.number().int().positive().default(12),
-  additionalDrivers: z.coerce.number().int().nonnegative().default(0),
-  voluntaryExcess: z.coerce.number().int().nonnegative().default(0),
+  duration: z.number().int().positive(),
+  additionalDrivers: z.number().int().nonnegative(),
+  voluntaryExcess: z.number().int().nonnegative(),
 });
 
 type QuoteFormInputs = z.infer<typeof quoteSchema>;
@@ -368,7 +368,7 @@ return (
                     <Controller
                       name={fieldName as keyof QuoteFormInputs}
                       control={control}
-                      render={({ field }) => (
+                      render={({ field: { onChange, ...field } }) => (
                         <div>
                           <div className="flex items-center justify-between mb-2">
                             <label className="block text-sm font-medium text-slate-700 flex items-center">
@@ -399,7 +399,7 @@ return (
                             )}
                           </div>
                           {fieldName === 'fuelType' ? (
-                            <select {...field} className="w-full px-4 py-3 border border-slate-300 rounded-xl text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50">
+                            <select {...field} onChange={onChange} className="w-full px-4 py-3 border border-slate-300 rounded-xl text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50">
                               <option value="petrol">Petrol</option>
                               <option value="diesel">Diesel</option>
                               <option value="electric">Electric</option>
@@ -422,7 +422,7 @@ return (
                                     value={type}
                                     checked={field.value === type}
                                     className="sr-only"
-                                    onChange={() => field.onChange(type)}
+                                    onChange={() => onChange(type)}
                                   />
                                   <Shield className={`h-8 w-8 mb-2 ${field.value === type ? 'text-blue-600' : 'text-slate-400'}`} />
                                   <span className={`text-sm font-medium ${field.value === type ? 'text-blue-900' : 'text-slate-700'}`}>
@@ -434,6 +434,7 @@ return (
                           ) : fieldName === 'year' ? (
                             <input 
                               {...field} 
+                              onChange={(e) => onChange(e.target.valueAsNumber)}
                               type="number" 
                               min="1900" 
                               max={new Date().getFullYear() + 1} 
@@ -443,6 +444,7 @@ return (
                           ) : fieldName === 'vehicleValue' || fieldName === 'duration' || fieldName === 'additionalDrivers' || fieldName === 'voluntaryExcess' ? (
                             <input 
                               {...field} 
+                              onChange={(e) => onChange(e.target.valueAsNumber)}
                               type="number" 
                               min="0" 
                               placeholder={fieldConfig[fieldName as keyof typeof fieldConfig]?.placeholder}
@@ -451,6 +453,7 @@ return (
                           ) : fieldName === 'startDate' ? (
                             <input 
                               {...field} 
+                              onChange={onChange}
                               type="date" 
                               min={new Date().toISOString().split('T')[0]} 
                               className="w-full px-4 py-3 border border-slate-300 rounded-xl text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50" 
@@ -458,6 +461,7 @@ return (
                           ) : (
                             <input 
                               {...field} 
+                              onChange={onChange}
                               type="text" 
                               placeholder={fieldConfig[fieldName as keyof typeof fieldConfig]?.placeholder}
                               className="w-full px-4 py-3 border border-slate-300 rounded-xl text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50" 
