@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["http://localhost:3000", "http://localhost:3001", "https://motor-insurance-96250.web.app", "https://motor-insurance-96250.firebaseapp.com", "https://motor-insurance.tanshidigitalsolutions.site"],
+    "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type", "Authorization", "Content-Length", "User-Agent", "x-goog-resumable"]
+  }
+]
