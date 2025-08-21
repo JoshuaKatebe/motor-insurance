@@ -113,7 +113,7 @@ export default function AIAssistant() {
           setMessages(prev => [...prev, {
             id: Date.now().toString(),
             role: 'assistant',
-            content: `Would you like me to help you with any of these?\n${response.suggestions.map(s => `• ${s}`).join('\n')}`,
+            content: `Would you like me to help you with any of these?\n${(response.suggestions ?? []).map(s => `• ${s}`).join('\n')}`,
             timestamp: new Date()
           }]);
         }, 1000);

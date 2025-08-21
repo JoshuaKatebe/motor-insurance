@@ -12,6 +12,29 @@ import {
   AggregateField
 } from 'firebase/firestore';
 
+export interface Policy {
+  id: string;
+  userId: string;
+  premium: number;
+  status: string;
+  createdAt: Timestamp;
+}
+
+export interface Claim {
+  id: string;
+  userId: string;
+  status: string;
+  estimatedAmount: number;
+  createdAt: Timestamp;
+}
+
+export interface Quote {
+  id: string;
+  userId: string;
+  status: string;
+  createdAt: Timestamp;
+}
+
 export interface UserData {
   id: string;
   email: string;
@@ -183,42 +206,42 @@ export class AdminService {
     }
   }
 
-  private static async getAllPolicies() {
+  private static async getAllPolicies(): Promise<Policy[]> {
     try {
       const policiesQuery = query(
         collection(db, 'policies'),
         orderBy('createdAt', 'desc')
       );
       const snapshot = await getDocs(policiesQuery);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Policy[];
     } catch (error) {
       console.error('Error fetching policies:', error);
       return [];
     }
   }
 
-  private static async getAllClaims() {
+  private static async getAllClaims(): Promise<Claim[]> {
     try {
       const claimsQuery = query(
         collection(db, 'claims'),
         orderBy('createdAt', 'desc')
       );
       const snapshot = await getDocs(claimsQuery);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Claim[];
     } catch (error) {
       console.error('Error fetching claims:', error);
       return [];
     }
   }
 
-  private static async getAllQuotes() {
+  private static async getAllQuotes(): Promise<Quote[]> {
     try {
       const quotesQuery = query(
         collection(db, 'quotes'),
         orderBy('createdAt', 'desc')
       );
       const snapshot = await getDocs(quotesQuery);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Quote[];
     } catch (error) {
       console.error('Error fetching quotes:', error);
       return [];
